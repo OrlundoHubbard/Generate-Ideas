@@ -1,11 +1,23 @@
 import styles from "../styles/Home.module.css";
 import styled from "styled-components";
+import { useState } from "react";
+import Head from "next/head";
 
 export default function Home() {
   return (
     <div className={styles.container}>
       <GenerateIdeasWrapper>
+        <GenerateIdeasForm onSubmit={onSubmit}>
+          <GenerateIdeasInputs
+            type="text"
+            name="idea"
+            placeholder="Type any idea"
+            value={ideaInput}
+            onChange={(e) => setIdeaInput(e.target.value)}
+          />
+        </GenerateIdeasForm>
         <GenerateIdeasButton>Generate Ideas</GenerateIdeasButton>
+        <div>{result}</div>
       </GenerateIdeasWrapper>
     </div>
   );
@@ -27,3 +39,19 @@ const GenerateIdeasButton = styled.button`
   cursor: pointer;
   color: grey;
 `;
+
+const GenerateIdeasForm = styled.form`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const GenerateIdeasInputs = styled.input`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  outline: none; // may want to come back to this and add accesibilty to it.
+  border-bottom: 1px solid black;
+`;
+
