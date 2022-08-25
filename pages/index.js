@@ -1,9 +1,38 @@
 import styles from "../styles/Home.module.css";
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 
 export default function Home() {
+
+  const [data, setData] = useState({ text: " "});
+  const [query, setQuery] = useState();
+  const [search, setSearch] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (search) {
+        setIsLoading(true);
+        const res = await fetch(`/api/openai`, {
+          body: JSON.stringify({
+            name: search,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+        });
+        const data = await res.json();
+        setData(data);
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [search])
+
+
   return (
     <div className={styles.container}>
       <GenerateIdeasWrapper>
